@@ -1,0 +1,26 @@
+namespace: middleware_automation
+name: common_criteria
+version: "0.0.1"
+readme: README.md
+authors:
+  - Romain Pelisse <belaran@redhat.com>
+  - Andrew Block <ablock@redhat.com>
+  - Harsha Cherukuri <hcheruku@redhat.com>
+description: Validate that middleware software (such as Wildfly JEE server and Apache Tomcat) follow the Common Criteria security recommendation.
+license_file: "LICENSE"
+tags:
+  - java
+  - jboss
+  - wildfly
+  - tomcat
+  - jws
+dependencies:
+  middleware_automation.jcliff: '>=0.0.10'
+  middleware_automation.redhat_csp_download: '>=1.1.2'
+  middleware_automation.jws: '>=0.0.2'
+  community.general: '>3.8.1'
+
+repository: https://github.com/ansible-middleware/common_criteria
+documentation: https://github.com/ansible-middleware/common_criteria
+homepage: https://github.com/ansible-middleware/common_criteria
+issues: https://github.com/ansible-middleware/common_criteria/issues

@@ -1,0 +1,118 @@
+---
+- name: "Validate Common Criteria recommendations on Apache Tomcat installation"
+  hosts: "all"
+  vars:
+    tomcat_setup: true
+    tomcat_version: 9.0.50
+    tomcat_download_url: https://archive.apache.org/dist/tomcat/tomcat-9/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.zip
+    tomcat_install_dir: /opt
+    tomcat_zipfile: "{{ tomcat_install_dir }}/tomcat.zip"
+    tomcat_home: "{{ tomcat_install_dir }}/apache-tomcat-{{ tomcat_version }}"
+
+    tomcat_systemd_enabled: True
+    tomcat_service_name: tomcat
+    tomcat_java_version: 1.8.0
+    override_tomcat_listen_http_bind_address: 127.0.0.1
+    override_tomcat_listen_http_port: 8081
+  collections:
+    - middleware_automation.jws
+  roles:
+    - jws
+    - jws_common_criteria
+  pre_tasks:
+    - name: "Download latest Apache Tomcat Zipfile from {{ tomcat_download_url }}."
+      get_url:
+        url: "{{ tomcat_download_url }}"
+        dest: "{{ tomcat_zipfile }}"
+      when:
+        - tomcat_download_url is defined
+
+  post_tasks:
+
+    - meta: flush_handlers
+
+    - name: "Ensure Tomcat is started and listen to appropriate port"
+      wait_for:
+        host: "{{ override_tomcat_listen_http_bind_address }}"
+        port: "{{ override_tomcat_listen_http_port | default(8080) }}"
+      when:
+        - tomcat_systemd_enabled is defined
+
+- name: "Validate Common Criteria recommendations on Wildfly installation"
+  hosts: "all"
+  become: yes
+  vars:
+    wildfly_user: wildfly
+    wildfly_group: wildfly
+    wildfly:
+      workdir: /opt
+      download_base_url: https://download.jboss.org/wildfly/
+      version: 19.0.0.Final
+    wildfly_home: "{{ wildfly.workdir }}/wildfly-{{ wildfly.version }}"
+    wildfly_config_base: standalone.xml
+  collections:
+    - middleware_automation.jcliff
+  roles:
+    - jcliff
+    - wildfly_systemd
+  pre_tasks:
+
+    - name: "Ensure user {{ wildfly_user }} exists."
+      group:
+        name: "{{ wildfly_group }}"
+
+    - name: "Ensure group {{ wildfly_group }} exists."
+      user:
+        name: "{{ wildfly_user }}"
+        groups: "{{ wildfly_group }}"
+        state: present
+
+    - package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - unzip
+        - tar
+        - java-1.8.0-openjdk
+
+    - block:
+        - set_fact:
+            wfly_download_url: "{{ wildfly.download_base_url }}/{{ wildfly.version }}/wildfly-{{ wildfly.version }}.zip"
+
+        - name: "Download and unzip Wildfly zipfile from {{ wfly_download_url }}"
+          unarchive:
+            src: "{{ wfly_download_url }}"
+            dest: "{{ wildfly.workdir }}"
+            owner: "{{ wildfly_user }}"
+            group: "{{ wildfly_group }}"
+            remote_src: yes
+            creates: "{{ wildfly_home }}"
+      when:
+        - wildfly is defined
+        - wildfly.download_base_url is defined
+        - wildfly.version is defined
+    - stat:
+        path: "{{ wildfly_home }}"
+      register: stat_wildfly_home
+      when:
+        - wildfly_home is defined
+
+    - file:
+        path: "{{ wildfly_home }}"
+        owner: "{{ wildfly_user }}"
+        group: "{{ wildfly_group }}"
+        recurse: yes
+      when:
+        - stat_wildfly_home is defined
+        - stat_wildfly_home.stat is defined
+        - stat_wildfly_home.stat.exists
+
+  post_tasks:
+    - wait_for:
+        port: 8080
+
+    - name: "Checks that Wildfly server is running and accessible"
+      get_url:
+        url: http://localhost:8080/
+        dest: '/dev/null'
+
