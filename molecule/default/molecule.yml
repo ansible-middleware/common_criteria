@@ -1,0 +1,40 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+# lint: |
+#   set -e
+#   yamllint .
+#   flake8
+#   ansible-lint --force-color
+platforms:
+  - name: instance
+    image: docker.io/centos:8
+provisioner:
+  name: ansible
+  playbooks:
+    converge: ../../playbook.yml
+  env:
+    CATALINA_HOME: "/opt/apache-tomcat-9.0.50"
+  inventory:
+    host_vars:
+      localhost:
+        ansible_python_interpreter: "{{ ansible_playbook_python }}"
+verifier:
+  name: ansible
+scenario:
+  test_sequence:
+    - dependency
+    - lint
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    # -   idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy

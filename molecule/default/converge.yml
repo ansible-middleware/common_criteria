@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include jws common criteria"
+      include_role:
+        name: "jws_common_criteria"
+    - name: "Include wildfly common criteria"
+      include_role:
+        name: "wildfly_common_criteria"
