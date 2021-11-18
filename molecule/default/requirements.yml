@@ -1,3 +1,9 @@
 ---
 collections:
-  - middleware_automation.jcliff
+  - name: middleware_automation.jcliff
+  - name: middleware_automation.jws
+    version: ">=0.0.3"
+  - name: community.docker
+    version: ">=1.2.0,<2"
+  - name: community.general
+    version: ">=3.4.0"
