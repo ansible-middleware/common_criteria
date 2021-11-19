@@ -8,9 +8,6 @@
     tomcat_install_dir: /opt
     tomcat_zipfile: "{{ tomcat_install_dir }}/tomcat.zip"
     tomcat_home: "{{ tomcat_install_dir }}/apache-tomcat-{{ tomcat_version }}"
-
-    tomcat_systemd_enabled: True
-    tomcat_service_name: tomcat
     tomcat_java_version: 1.8.0
     override_tomcat_listen_http_bind_address: 127.0.0.1
     override_tomcat_listen_http_port: 8081
@@ -54,7 +51,6 @@
     - middleware_automation.jcliff
   roles:
     - jcliff
-    - wildfly_systemd
   pre_tasks:
 
     - name: "Ensure user {{ wildfly_user }} exists."
@@ -106,6 +102,17 @@
         - stat_wildfly_home is defined
         - stat_wildfly_home.stat is defined
         - stat_wildfly_home.stat.exists
+    - name: "Start server"
+      command: "{{ wildfly_home }}/bin/standalone.sh"
+      register: out
+      async: 15
+      poll: 0
+
+    - wait_for:
+        timeout: 10
+
+    - debug:
+        msg: "{{ out }}"
 
   post_tasks:
     - wait_for:
