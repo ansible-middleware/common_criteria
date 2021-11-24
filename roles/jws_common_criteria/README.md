@@ -1,4 +1,4 @@
-redhat.jws.common_criteria
+jws_common_criteria
 ==================================================
 
 This role will handle common criteria certification.
