@@ -16,7 +16,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
         with:
-          path: ansible_collections/redhat/jws
+          path: ansible_collections/middleware_automation/common_criteria
 
       - name: Set up Python ${{ matrix.python_version }}
         uses: actions/setup-python@v1
@@ -30,13 +30,14 @@ jobs:
 
       - name: Run sanity tests
         run: ansible-test sanity
-        working-directory: ./ansible_collections/redhat/jws
+        working-directory: ./ansible_collections/middleware_automation/common_criteria
 
-      # - name: Run molecule test
-      #   run: |
-      #     ansible-galaxy collection install -r molecule/default/requirements.yml
-      #     molecule test
-      #   env:
-      #     PY_COLORS: "1"
-      #     ANSIBLE_FORCE_COLOR: "1"
-      #   working-directory: ./ansible_collections/redhat/jws
+
+      - name: Run molecule test
+        run: |
+          ansible-galaxy collection install -r molecule/default/requirements.yml
+          molecule test
+        env:
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
+        working-directory: ./ansible_collections/middleware_automation/common_criteria
