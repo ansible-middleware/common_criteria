@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python_version }}
-      
+
       - name: Install yamllint, ansible and molecule
         run: |
           python -m pip install --upgrade pip
@@ -32,12 +32,11 @@ jobs:
         run: ansible-test sanity
         working-directory: ./ansible_collections/middleware_automation/common_criteria
 
-
       - name: Run molecule test
-        run: |
-          ansible-galaxy collection install -r molecule/default/requirements.yml
-          molecule test
-        env:
-          PY_COLORS: "1"
-          ANSIBLE_FORCE_COLOR: "1"
-        working-directory: ./ansible_collections/middleware_automation/common_criteria
+         run: |
+           ansible-galaxy collection install -r molecule/default/requirements.yml
+           molecule test --all
+         env:
+           PY_COLORS: "1"
+           ANSIBLE_FORCE_COLOR: "1"
+         working-directory: ./ansible_collections/redhat/jws
