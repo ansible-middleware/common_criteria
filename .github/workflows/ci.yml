@@ -34,7 +34,7 @@ jobs:
 
       - name: Run molecule test
          run: |
-           ansible-galaxy collection install -r molecule/default/requirements.yml
+           ansible-galaxy collection install -r molecule/requirements.yml
            molecule test --all
          env:
            PY_COLORS: "1"
