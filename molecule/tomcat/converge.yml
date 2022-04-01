@@ -1,0 +1,36 @@
+---
+- name: "Validate Common Criteria recommendations on Apache Tomcat installation"
+  hosts: "all"
+  vars:
+    tomcat_setup: true
+    tomcat_version: 9.0.50
+    tomcat_download_url: https://archive.apache.org/dist/tomcat/tomcat-9/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.zip
+    tomcat_install_dir: /opt
+    tomcat_zipfile: "{{ tomcat_install_dir }}/tomcat.zip"
+    tomcat_home: "{{ tomcat_install_dir }}/apache-tomcat-{{ tomcat_version }}"
+    tomcat_java_version: 1.8.0
+    override_tomcat_listen_http_bind_address: 127.0.0.1
+    override_tomcat_listen_http_port: 8081
+  collections:
+    - middleware_automation.jws
+  roles:
+    - jws
+    - jws_common_criteria
+  pre_tasks:
+    - name: "Download latest Apache Tomcat Zipfile from {{ tomcat_download_url }}."
+      get_url:
+        url: "{{ tomcat_download_url }}"
+        dest: "{{ tomcat_zipfile }}"
+      when:
+        - tomcat_download_url is defined
+
+  post_tasks:
+
+    - meta: flush_handlers
+
+    - name: "Ensure Tomcat is started and listen to appropriate port"
+      wait_for:
+        host: "{{ override_tomcat_listen_http_bind_address }}"
+        port: "{{ override_tomcat_listen_http_port | default(8080) }}"
+      when:
+        - tomcat_systemd_enabled is defined
