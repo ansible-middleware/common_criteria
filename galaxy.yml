@@ -15,7 +15,6 @@ tags:
   - tomcat
   - jws
 dependencies:
-  middleware_automation.jcliff: '>=0.0.10'
   middleware_automation.redhat_csp_download: '>=1.1.2'
   middleware_automation.jws: '>=0.0.2'
   community.general: '>3.8.1'
