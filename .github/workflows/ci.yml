@@ -33,10 +33,10 @@ jobs:
         working-directory: ./ansible_collections/middleware_automation/common_criteria
 
       - name: Run molecule test
-         run: |
-           ansible-galaxy collection install -r molecule/requirements.yml
-           molecule test --all
-         env:
-           PY_COLORS: "1"
-           ANSIBLE_FORCE_COLOR: "1"
-         working-directory: ./ansible_collections/redhat/jws
+        run: |
+          ansible-galaxy collection install -r molecule/requirements.yml
+          molecule test --all
+        env:
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
+        working-directory: ./ansible_collections/redhat/jws
