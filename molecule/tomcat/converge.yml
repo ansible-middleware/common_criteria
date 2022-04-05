@@ -15,7 +15,7 @@
     - middleware_automation.jws
   roles:
     - jws
-    - jws_common_criteria
+
   pre_tasks:
     - name: "Download latest Apache Tomcat Zipfile from {{ tomcat_download_url }}."
       get_url:
@@ -23,14 +23,10 @@
         dest: "{{ tomcat_zipfile }}"
       when:
         - tomcat_download_url is defined
-
-  post_tasks:
+  tasks:
 
     - meta: flush_handlers
 
-    - name: "Ensure Tomcat is started and listen to appropriate port"
-      wait_for:
-        host: "{{ override_tomcat_listen_http_bind_address }}"
-        port: "{{ override_tomcat_listen_http_port | default(8080) }}"
-      when:
-        - tomcat_systemd_enabled is defined
+  post_tasks:
+    - ansible.builtin.include_role:
+        name: ../../roles/jws_common_criteria
