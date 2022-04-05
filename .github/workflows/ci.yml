@@ -35,8 +35,6 @@ jobs:
       - name: Run molecule test
         run: |
           ansible-galaxy collection install -r molecule/requirements.yml
-          ansible-galaxy collection build .
-          ansible-galaxy collection install middleware_automation-common_criteria*.tar.gz
           molecule test --all
         env:
           PY_COLORS: "1"
