@@ -8,10 +8,10 @@ Role Variables
 
 Required:
 
-- display_xpath_res_override: default vaule is 'False'
-- display_directory_stats_override: default vaule is 'False'
-- tomcat_owner_override: default vaule is 'tomcat'
-- tomcat_group_override: default vaule is 'tomcat'
+- display_xpath_res_override: default value is 'False'
+- display_directory_stats_override: default value is 'False'
+- jws_owner_override: default value is 'tomcat'
+- jws_group_override: default value is 'tomcat'
 
 Example Playbooks
 -----------------

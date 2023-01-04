@@ -23,8 +23,8 @@
 - debug:
     msg: "{{ res }} (expected_count: {{ expected_count }})"
   when:
-    - tomcat_common_criteria.display_xpath_res is defined
-    - tomcat_common_criteria.display_xpath_res
+    - jws_common_criteria.display_xpath_res is defined
+    - jws_common_criteria.display_xpath_res
     - res is defined
     - res.count is defined
     - (res.count | int ) != expected_count

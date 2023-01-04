@@ -2,11 +2,9 @@
 - name: Check that required information has been provided
   assert:
     that:
-      - java_home is defined
-      - java_version is defined
-      - jboss_home is defined
-      - jdk_id is defined
-    fail_msg: "java_home, java_version, jdk_id and jboss_home must defined."
+      - wildfly_home is defined
+      - wildfly_java_package_name is defined
+    fail_msg: "wildfly_home and wildfly_java_package_name must defined."
     quiet: true
 
 - set_fact:
