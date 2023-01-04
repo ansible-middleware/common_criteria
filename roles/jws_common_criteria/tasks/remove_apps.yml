@@ -1,7 +1,7 @@
 ---
 - name: "Gather information on webapp {{ item }}"
   stat:
-    path: "{{ tomcat.home }}/webapps/{{ item }}"
+    path: "{{ jws_home }}/webapps/{{ item }}"
   register: path_to_removed_app
 
 - name: "Validate path does not exist"

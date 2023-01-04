@@ -1,25 +1,25 @@
 ---
 - assert:
     that:
-      - java_home is defined
+      - wildfly_java_home is defined
     quiet: true
 
 
-- name: "Recording informations on {{ java_home }}"
+- name: "Recording information on {{ wildfly_java_home }}"
   stat:
-    path: "{{ java_home }}"
+    path: "{{ wildfly_java_home }}"
     follow: True
-  register: java_home_path
+  register: wildfly_java_home_path
 
 - block:
     - set_fact:
         fail_msg:
-          - "Provided JAVA_HOME {{ java_home }} does not exist or is not a directory"
+          - "Provided JAVA_HOME {{ wildfly_java_home }} does not exist or is not a directory"
 
-    - name: "Check that provided JAVA_HOME exists and is a folder: {{ java_home }}"
+    - name: "Check that provided JAVA_HOME exists and is a folder: {{ wildfly_java_home }}"
       assert:
         that:
-          - java_home_path.stat.isdir is defined and java_home_path.stat.isdir
+          - wildfly_java_home_path.stat.isdir is defined and wildfly_java_home_path.stat.isdir
         fail_msg: "{{ fail_msg[0] }}"
   rescue:
     - set_fact:
@@ -27,7 +27,7 @@
         compliance_issues: "{{ compliance_issues + fail_msg }}"
 
 - name:
-  command: "{{ java_home }}/bin/java -version"
+  command: "{{ wildfly_java_home }}/bin/java -version"
   register: java_version_output
   changed_when: false
 
