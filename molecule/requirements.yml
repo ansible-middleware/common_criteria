@@ -1,10 +1,10 @@
 ---
 collections:
   - name: middleware_automation.wildfly
-    version: ">=1.0.0"
+    version: ">=1.2.2"
   - name: middleware_automation.jws
-    version: ">=0.0.3"
+    version: ">=1.2.3"
   - name: community.docker
-    version: ">=1.2.0,<2"
+    version: ">=3.3.1"
   - name: community.general
-    version: ">=3.4.0"
+    version: ">=6.1.0"

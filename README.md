@@ -18,8 +18,8 @@ Click on the name of a plugin or module to view that content's documentation:
 ### Roles
 Name | Description
 --- | ---
-jws_common_criteria | Handle'scommon criteria certification.
-wildfly_commom_criteria | Handle's wildfly configuraion.
+jws_common_criteria | Handle common criteria certification.
+wildfly_common_criteria | Handle wildfly configuration.
 
 ## Installation and Usage
 
@@ -37,11 +37,11 @@ collections:
   - name: middleware_automation.common_criteria
 ```
 ### Using via GitHub Action
-A GitHub action which is uses this role is provided by the Red Hat Containers Community of Practice (CoP)
+A GitHub action which uses this role is provided by the Red Hat Containers Community of Practice (CoP)
 - https://github.com/redhat-cop/github-actions/tree/master/common_criteria
 
 ## License
 
 Apache License v2.0 or later
 
-See [LICENCE](LICENSE) to view the full text.
+See [LICENSE](LICENSE) to view the full text.
