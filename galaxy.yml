@@ -6,6 +6,7 @@ authors:
   - Romain Pelisse <belaran@redhat.com>
   - Andrew Block <ablock@redhat.com>
   - Harsha Cherukuri <hcheruku@redhat.com>
+  - Ranabir Chakraborty <rchakrab@redhat.com>
 description: Validate that middleware software (such as Wildfly JEE server and Apache Tomcat) follow the Common Criteria security recommendation.
 license_file: "LICENSE"
 tags:
